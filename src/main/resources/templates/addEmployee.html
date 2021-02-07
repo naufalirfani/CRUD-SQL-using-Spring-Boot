@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -30,13 +30,14 @@
             border-radius: 16px;
         }
         .container {
-            padding: 32px;
+            padding: 48px;
         }
         label {
             font-weight: bold;
         }
         .button {
             font-size: 24px;
+            min-width: 120px;
             padding: 8px 16px;
             margin-top: 24px;
             font-weight: bold;
@@ -45,26 +46,48 @@
 </head>
 <body style="background-color: Thistle">
 <div class="center-page">
-    <form action="/action_page.php" method="post">
+    <form action="#" th:action="@{/employee}" method="post">
         <h1 class="text-center" style="padding: 32px; color: dodgerblue; font-weight: bold">Add Employee</h1>
         <div class="container">
             <label for="nama">
                 Nama
             </label>
-            <input type="text" placeholder="Masukkan Nama" name="nama" id="nama" required>
+            <input
+                    type="text"
+                    placeholder="Masukkan Nama"
+                    name="nama"
+                    id="nama"
+                    required>
 
-            <label for="atasan_id">
+            <label for="atasanId">
                 ID Atasan
             </label>
-            <input type="number" placeholder="Masukkan ID Atasan" name="atasan_id" id="atasan_id" required>
+            <input
+                    type="number"
+                    placeholder="Masukkan ID Atasan"
+                    name="atasanId"
+                    id="atasanId"
+                    min="1"
+                    max="5"
+                    required>
 
-            <label for="company_id">
-                ID Company
-            </label>
-            <input type="number" placeholder="Masukkan ID Comany" name="company_id" id="company_id" required>
+            <p><b>Company</b></p>
+            <p style="font-size: 16px"><input type="radio" name="companyId" value="1" required/> PT JAVAN</p>
+            <p style="font-size: 16px"><input type="radio" name="companyId" value="2" required/> PT Dicoding</p>
 
             <p class="text-center">
-                <button type="submit" class="button btn btn-primary">Add Employee</button>
+                <button
+                        type="submit"
+                        class="button btn btn-danger"
+                        onclick="location.href = '/employee';"
+                        style="margin-right: 32px">
+                    Cancel
+                </button>
+                <button
+                        type="submit"
+                        class="button btn btn-primary">
+                    Add
+                </button>
             </p>
         </div>
     </form>

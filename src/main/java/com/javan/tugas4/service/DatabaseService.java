@@ -8,13 +8,14 @@ import java.util.List;
 
 public class DatabaseService {
 
-    public ArrayList<DataEmployee> employeeList = new ArrayList<>();
+    public List<DataEmployee> employeeList = new ArrayList<>();
 
     public void getData(){
 
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/sdm","root","freetopl4y");
+            Connection conn =
+                    DriverManager.getConnection("jdbc:mysql://localhost:3306/sdm","root","freetopl4y");
             //here sonoo is database name, root is username and password
 
             // the mysql insert statement
@@ -23,12 +24,18 @@ public class DatabaseService {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(query);
 
+            employeeList.clear();
             while(rs.next()){
+                String company;
+                if(rs.getInt(4) == 1)
+                    company = "PT JAVAN";
+                else
+                    company = "PT Dicoding";
                 DataEmployee dataEmployee = new DataEmployee(
                         rs.getInt(1),
                         rs.getString(2),
                         rs.getInt(3),
-                        rs.getInt(4)
+                        company
                 );
                 employeeList.add(dataEmployee);
             }
@@ -37,23 +44,22 @@ public class DatabaseService {
         }catch(Exception e){ System.out.println(e);}
     }
 
-    public void insertData(){
+    public void insertData(String nama, int atasanId, int companyId){
         try{
             // create a mysql database connection
             Class.forName("com.mysql.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Perpustakaan","root","freetopl4y");
+            Connection conn =
+                    DriverManager.getConnection("jdbc:mysql://localhost:3306/sdm","root","freetopl4y");
 
             // the mysql insert statement
-            String query = " insert into anggota (id_anggota, nm_anggota, alamat, ttl_anggota, status_anggota)"
-                    + " values (?, ?, ?, ?, ?)";
+            String query = " insert into employee (nama, atasan_id, company_id)"
+                    + " values (?, ?, ?)";
 
             // create the mysql insert preparedstatement
             PreparedStatement preparedStmt = conn.prepareStatement(query);
-            preparedStmt.setInt(1, 3);
-            preparedStmt.setString(2, "Siwi Widayanti");
-            preparedStmt.setString(3, "Gondang, Margoagung");
-            preparedStmt.setString(4, "23 Januari 1973");
-            preparedStmt.setInt(5, 1);
+            preparedStmt.setString(1, nama);
+            preparedStmt.setInt(2, atasanId);
+            preparedStmt.setInt(3, companyId);
 
             // execute the preparedstatement
             preparedStmt.execute();
