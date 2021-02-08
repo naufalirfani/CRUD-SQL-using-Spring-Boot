@@ -44,4 +44,10 @@ public class EmployeeController {
         return "mainEmployee";
     }
 
+    @PostMapping("/employee/showtable")
+    public String deleteEmployee(@RequestParam(value = "id", defaultValue = "dsada") String id) {
+
+        System.out.println(id);
+        return "employeeTable";
+    }
 }
