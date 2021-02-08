@@ -73,17 +73,23 @@ public class DatabaseService {
         }
     }
 
-    public void deleteData(){
+    public void deleteData(int id){
         try{
             Class.forName("com.mysql.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/Perpustakaan","root","freetopl4y");
+            Connection conn =
+                    DriverManager.getConnection("jdbc:mysql://localhost:3306/sdm","root","freetopl4y");
 
             // the mysql insert statement
-            String query = "delete from anggota where id_anggota = 3";
+            String query = "delete from employee where id = %d";
+            query = String.format(query, id);
+
+            String query2 = "ALTER TABLE `employee` AUTO_INCREMENT = 1";
 
             // create the mysql insert preparedstatement
             PreparedStatement preparedStmt = conn.prepareStatement(query);
             preparedStmt.execute();
+            PreparedStatement preparedStmt2 = conn.prepareStatement(query2);
+            preparedStmt2.execute();
             conn.close();
         }catch(Exception e){ System.out.println(e);}
     }
