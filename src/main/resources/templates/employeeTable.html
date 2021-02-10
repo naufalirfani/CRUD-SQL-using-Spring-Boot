@@ -150,6 +150,7 @@
                 <th>Nama</th>
                 <th style="width: 10%">AtasanId</th>
                 <th>Company</th>
+                <th>Update</th>
                 <th>Delete</th>
             </tr>
             </thead>
@@ -160,7 +161,26 @@
                 <td th:text="${dataEmployee.atasanId}"></td>
                 <td th:text="${dataEmployee.companyId}" class="td"></td>
                 <td>
+                    <form th:action="@{/employee/edit}" method="get">
+                        <input type="hidden" name="id" th:value="${dataEmployee.id}"/>
+                        <input type="hidden" name="atasanId" th:value="${dataEmployee.atasanId}"/>
+                        <input type="hidden" name="companyId" th:value="${dataEmployee.companyId}"/>
+                        <button
+                                type="submit"
+                                class="btn btn-primary"
+                                id="edit"
+                                name="nama"
+                                th:value="${dataEmployee.nama}"
+                        ><i class="fa fa-edit"></i></button>
+                    </form>
+                </td>
+                <td>
                     <form th:action="@{/employee/showtable}" method="post">
+                        <input type="hidden" name="operasi" value=""/>
+                        <input type="hidden" name="nama" value=""/>
+                        <input type="hidden" name="atasanId" value=""/>
+                        <input type="hidden" name="companyId" value=""/>
+
                         <button
                                 type="submit"
                                 class="btn btn-danger"

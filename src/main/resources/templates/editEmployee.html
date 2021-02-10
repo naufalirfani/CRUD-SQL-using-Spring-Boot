@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>CRUD Employee</title>
+    <style>
+        .center-page{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-right: -50%;
+            transform: translate(-50%, -50%);
+        }
+        form {
+            border: 4px solid dodgerblue;
+            background-color: whitesmoke ;
+            box-shadow: 4px 4px 4px grey;
+            border-radius: 16px;
+            margin: 0 384px;
+        }
+
+        input[type=text], input[type=number] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            border-radius: 16px;
+        }
+        .container {
+            padding: 48px;
+        }
+        label {
+            font-weight: bold;
+        }
+        .button {
+            font-size: 24px;
+            min-width: 120px;
+            padding: 8px 16px;
+            margin-top: 24px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body style="background-color: Thistle">
+<div class="center-page">
+    <form action="#" th:action="@{/employee/showtable}" method="post">
+        <h1 class="text-center" style="padding: 32px; color: dodgerblue; font-weight: bold">Edit Employee</h1>
+        <div class="container">
+            <label for="nama">
+                Nama
+            </label>
+            <input
+                    type="text"
+                    name="nama"
+                    id="nama"
+                    th:value="${nama}"
+                    required>
+
+            <label for="atasanId">
+                ID Atasan
+            </label>
+            <input
+                    type="number"
+                    th:value="${atasanId}"
+                    name="atasanId"
+                    id="atasanId"
+                    min="1"
+                    max="5"
+                    required>
+
+            <p><b>Company</b></p>
+            <span th:if="${company == 'PT JAVAN'}">
+                <p style="font-size: 16px"><input type="radio" name="companyId" value="1" required checked="checked"/> PT JAVAN</p>
+                <p style="font-size: 16px"><input type="radio" name="companyId" value="2" required/> PT Dicoding</p>
+            </span>
+            <span th:if="${company == 'PT Dicoding'}">
+                <p style="font-size: 16px"><input type="radio" name="companyId" value="1" required/> PT JAVAN</p>
+                <p style="font-size: 16px"><input type="radio" name="companyId" value="2" required checked="checked"/> PT Dicoding</p>
+            </span>
+
+            <p class="text-center">
+                <button
+                        type="submit"
+                        class="button btn btn-danger"
+                        onclick="location.href = '/employee/showtable';"
+                        style="margin-right: 32px">
+                    Cancel
+                </button>
+                <button
+                        type="submit"
+                        class="button btn btn-primary">
+                    Edit
+                </button>
+                <input type="hidden" name="operasi" value="edit"/>
+                <input type="hidden" name="id" th:value="${id}"/>
+            </p>
+        </div>
+    </form>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+</body>
+</html>

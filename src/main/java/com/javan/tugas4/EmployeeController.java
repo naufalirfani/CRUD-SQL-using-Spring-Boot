@@ -33,6 +33,19 @@ public class EmployeeController {
         return "addEmployee";
     }
 
+    @GetMapping("/employee/edit")
+    public String editEmployee(Model model,
+                               @RequestParam(value = "nama") String nama,
+                               @RequestParam(value = "atasanId") int atasanId,
+                               @RequestParam(value = "companyId") String company,
+                               @RequestParam(value = "id") int id) {
+        model.addAttribute("nama", nama);
+        model.addAttribute("atasanId", atasanId);
+        model.addAttribute("company", company);
+        model.addAttribute("id", id);
+        return "editEmployee";
+    }
+
     @PostMapping("/employee")
     public String addEmployee(@RequestParam(value = "nama", defaultValue = "") String nama,
                               @RequestParam(value = "atasanId", defaultValue = "0") int atasanId,
@@ -45,8 +58,17 @@ public class EmployeeController {
     }
 
     @PostMapping("/employee/showtable")
-    public String deleteEmployee(@RequestParam(value = "id", defaultValue = "0") int id, Model model) {
-        databaseService.deleteData(id);
+    public String postEmployee(@RequestParam(value = "operasi", defaultValue = "") String operasi,
+                                 @RequestParam(value = "id", defaultValue = "0") int id,
+                                 Model model,
+                                 @RequestParam(value = "nama", defaultValue = "") String nama,
+                                 @RequestParam(value = "atasanId", defaultValue = "0") int atasanId,
+                                 @RequestParam(value = "companyId", defaultValue = "0") int companyId) {
+        if(operasi.equals("delete"))
+            databaseService.deleteData(id);
+        else if(operasi.equals("edit"))
+            databaseService.updateData(nama, atasanId, companyId, id);
+
         databaseService.getData();
         model.addAttribute("employeeList", databaseService.employeeList);
         return "employeeTable";

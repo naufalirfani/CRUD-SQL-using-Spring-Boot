@@ -93,4 +93,33 @@ public class DatabaseService {
             conn.close();
         }catch(Exception e){ System.out.println(e);}
     }
+
+    public void updateData(String nama, int atasanId, int companyId, int id){
+        try{
+            // create a mysql database connection
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection conn =
+                    DriverManager.getConnection("jdbc:mysql://localhost:3306/sdm","root","freetopl4y");
+
+            // the mysql insert statement
+            String query = "update employee set nama = ?, atasan_id = ?, company_id = ? where id = ?";
+
+            // create the mysql insert preparedstatement
+            PreparedStatement preparedStmt = conn.prepareStatement(query);
+            preparedStmt.setString(1, nama);
+            preparedStmt.setInt(2, atasanId);
+            preparedStmt.setInt(3, companyId);
+            preparedStmt.setInt(4, id);
+
+            // execute the preparedstatement
+            preparedStmt.execute();
+
+            conn.close();
+        }
+        catch (Exception e)
+        {
+            System.err.println("Got an exception!");
+            System.err.println(e.getMessage());
+        }
+    }
 }
