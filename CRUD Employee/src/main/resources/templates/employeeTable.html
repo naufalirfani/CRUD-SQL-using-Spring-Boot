@@ -11,6 +11,7 @@
             padding: 24px;
             text-align: center;
             background-color: white;
+            width: min-content;
             white-space:nowrap;
             vertical-align: middle;
         }
@@ -34,7 +35,6 @@
             background-color: whitesmoke ;
             box-shadow: 4px 4px 4px grey;
             border-radius: 16px;
-            padding: 64px;
             margin-top: 32px;
             margin-bottom: 32px;
             width: min-content;
@@ -142,8 +142,14 @@
 <body style="background-color: Thistle">
 <div class="center-page">
     <div class="container">
-        <h1 style="padding-bottom: 32px; color: dodgerblue; font-weight: bold" class="text-center">Table Employee</h1>
-        <table id="t01" class="table table-striped">
+        <h1
+                style="padding: 32px 0;
+                color: dodgerblue;
+                font-weight: bold"
+                class="text-center">
+            Table Employee
+        </h1>
+        <table id="t01" class="table table-striped" style="margin: 0 32px 32px 32px">
             <thead>
             <tr>
                 <th style="width: 10%">Id</th>
@@ -176,7 +182,7 @@
                 </td>
                 <td>
                     <form th:action="@{/employee/showtable}" method="post">
-                        <input type="hidden" name="operasi" value=""/>
+                        <input type="hidden" name="operasi" value="delete"/>
                         <input type="hidden" name="nama" value=""/>
                         <input type="hidden" name="atasanId" value=""/>
                         <input type="hidden" name="companyId" value=""/>
@@ -218,18 +224,100 @@
             </tr>
             </tbody>
         </table>
+        <div id="tab" style="display: none">
+            <table id="t02" class="table table-striped" style="margin: 0 32px 32px 32px; display: ">
+                <thead>
+                <tr>
+                    <th style="width: 10%">Id</th>
+                    <th>Nama</th>
+                    <th style="width: 10%">AtasanId</th>
+                    <th>Company</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="dataEmployee :${employeeList}" >
+                    <td th:text="${dataEmployee.id}"></td>
+                    <td class="row-data" th:text="${dataEmployee.nama}"></td>
+                    <td th:text="${dataEmployee.atasanId}"></td>
+                    <td th:text="${dataEmployee.companyId}" class="td"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="text-center">
+            <button
+                    id="exportToButton"
+                    class="btn btn-primary"
+                    style="width: min-content ; margin: 16px 0; white-space:nowrap;"
+                    type="button">
+                Export to PDF
+            </button>
+        </div>
+        <button
+                onclick="location.href = '/employee';"
+                style="width: min-content; margin: 16px 8px"
+                type="submit"
+                class="btn btn-primary"
+                name="nama"
+        ><i class="fa fa-arrow-circle-left"></i></button>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
-<script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.6/jspdf.plugin.autotable.min.js"></script>
+<script type="text/javascript">
     // Get the modal
-    var modal = document.getElementById('id01');
+    // var modal = document.getElementById('id01');
+    //
+    // // When the user clicks anywhere outside of the modal, close it
+    // window.onclick = function(event) {
+    //     if (event.target == modal) {
+    //         modal.style.display = "none";
+    //     }
+    // }
 
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
+    document.getElementById('exportToButton').addEventListener('click',
+        exportPDF);
+
+    var specialElementHandlers = {
+        // element with id of "bypass" - jQuery style selector
+        '.no-export': function(element, renderer) {
+            // true = "handled elsewhere, bypass text extraction"
+            return true;
         }
+    };
+
+    function exportPDF() {
+
+        var doc = new jsPDF('p', 'pt', 'a4');
+        //A4 - 595x842 pts
+        //https://www.gnu.org/software/gv/manual/html_node/Paper-Keywords-and-paper-size-in-points.html
+
+
+        //Html source
+        var source = document.getElementById('tab').innerHTML;
+
+        var margins = {
+            top: 10,
+            bottom: 10,
+            left: 10,
+            width: 1000
+        };
+
+        doc.fromHTML(
+            source, // HTML string or DOM elem ref.
+            margins.left,
+            margins.top, {
+                'width': margins.width,
+                'elementHandlers': specialElementHandlers
+            },
+
+            function(dispose) {
+                // dispose: object with X, Y of the last line add to the PDF
+                //          this allow the insertion of new lines after html
+                doc.save('Test.pdf');
+            }, margins);
     }
 </script>
 </body>

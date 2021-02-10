@@ -1,15 +1,11 @@
 package com.javan.tugas4;
 
-import com.javan.tugas4.data.DataEmployee;
 import com.javan.tugas4.service.DatabaseService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 public class EmployeeController {
