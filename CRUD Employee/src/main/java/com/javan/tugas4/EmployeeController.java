@@ -1,11 +1,19 @@
 package com.javan.tugas4;
 
 import com.javan.tugas4.service.DatabaseService;
+import com.javan.tugas4.service.UserPDFExporter;
+import com.lowagie.text.DocumentException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Controller
 public class EmployeeController {
@@ -56,16 +64,32 @@ public class EmployeeController {
 
     @PostMapping("/employee/showtable")
     public String postEmployee(@RequestParam(value = "operasi", defaultValue = "") String operasi,
-                                 @RequestParam(value = "id", defaultValue = "0") int id,
-                                 Model model,
-                                 @RequestParam(value = "nama", defaultValue = "") String nama,
-                                 @RequestParam(value = "atasanId", defaultValue = "0") int atasanId,
-                                 @RequestParam(value = "companyId", defaultValue = "0") int companyId) {
-        if(operasi.equals("delete"))
-            databaseService.deleteData(id);
-        else if(operasi.equals("edit"))
-            databaseService.updateData(nama, atasanId, companyId, id);
+                               @RequestParam(value = "id", defaultValue = "0") int id,
+                               Model model,
+                               @RequestParam(value = "nama", defaultValue = "") String nama,
+                               @RequestParam(value = "atasanId", defaultValue = "0") int atasanId,
+                               @RequestParam(value = "companyId", defaultValue = "0") int companyId,
+                               HttpServletResponse response) throws DocumentException, IOException {
 
+        switch (operasi) {
+            case "delete":
+                databaseService.deleteData(id);
+                break;
+            case "edit":
+                databaseService.updateData(nama, atasanId, companyId, id);
+                break;
+            case "exportPDF":
+                response.setContentType("application/pdf");
+                DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+                String currentDateTime = dateFormatter.format(new Date());
+
+                String headerKey = "Content-Disposition";
+                String headerValue = "attachment; filename=users_" + currentDateTime + ".pdf";
+                response.setHeader(headerKey, headerValue);
+                UserPDFExporter exporter = new UserPDFExporter(databaseService.employeeListPrint);
+                exporter.export(response);
+                break;
+        }
         databaseService.getData();
         model.addAttribute("employeeList", databaseService.employeeList);
         model.addAttribute("employeeListPrint", databaseService.employeeListPrint);
