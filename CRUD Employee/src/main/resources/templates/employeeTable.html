@@ -230,16 +230,16 @@
                 <tr>
                     <th style="width: 10%">Id</th>
                     <th>Nama</th>
-                    <th style="width: 10%">AtasanId</th>
-                    <th>Company</th>
+                    <th style="width: 10%">Posisi</th>
+                    <th>Perusahaan</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="dataEmployee :${employeeList}" >
+                <tr th:each="dataEmployee :${employeeListPrint}" >
                     <td th:text="${dataEmployee.id}"></td>
                     <td class="row-data" th:text="${dataEmployee.nama}"></td>
-                    <td th:text="${dataEmployee.atasanId}"></td>
-                    <td th:text="${dataEmployee.companyId}" class="td"></td>
+                    <td th:text="${dataEmployee.posisi}"></td>
+                    <td th:text="${dataEmployee.perusahaan}" class="td"></td>
                 </tr>
                 </tbody>
             </table>
@@ -316,7 +316,7 @@
             function(dispose) {
                 // dispose: object with X, Y of the last line add to the PDF
                 //          this allow the insertion of new lines after html
-                doc.save('Test.pdf');
+                doc.save('Table Employee.pdf');
             }, margins);
     }
 </script>

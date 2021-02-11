@@ -21,6 +21,7 @@ public class EmployeeController {
     public String showEmployee(Model model) {
         databaseService.getData();
         model.addAttribute("employeeList", databaseService.employeeList);
+        model.addAttribute("employeeListPrint", databaseService.employeeListPrint);
         return "employeeTable";
     }
 
@@ -67,6 +68,7 @@ public class EmployeeController {
 
         databaseService.getData();
         model.addAttribute("employeeList", databaseService.employeeList);
+        model.addAttribute("employeeListPrint", databaseService.employeeListPrint);
         return "employeeTable";
     }
 }

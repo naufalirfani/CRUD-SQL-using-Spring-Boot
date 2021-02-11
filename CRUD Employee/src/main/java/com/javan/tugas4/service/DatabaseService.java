@@ -1,6 +1,7 @@
 package com.javan.tugas4.service;
 
 import com.javan.tugas4.data.DataEmployee;
+import com.javan.tugas4.data.DataEmployeePrint;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.List;
 public class DatabaseService {
 
     public List<DataEmployee> employeeList = new ArrayList<>();
+    public List<DataEmployeePrint> employeeListPrint = new ArrayList<>();
 
     public void getData(){
 
@@ -26,18 +28,34 @@ public class DatabaseService {
 
             employeeList.clear();
             while(rs.next()){
+                String posisi = null;
                 String company;
                 if(rs.getInt(4) == 1)
                     company = "PT JAVAN";
                 else
                     company = "PT Dicoding";
+                if(rs.getInt(3) == 0)
+                    posisi = "CEO";
+                else if(rs.getInt(3) == 1)
+                    posisi = "Direktur";
+                else if(rs.getInt(3) == 2 || rs.getInt(3) == 3)
+                    posisi = "Manager";
+                else if(rs.getInt(3) == 4 || rs.getInt(3) == 5)
+                    posisi = "Staff";
                 DataEmployee dataEmployee = new DataEmployee(
                         rs.getInt(1),
                         rs.getString(2),
                         rs.getInt(3),
                         company
                 );
+                DataEmployeePrint dataEmployeePrint = new DataEmployeePrint(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        posisi,
+                        company
+                );
                 employeeList.add(dataEmployee);
+                employeeListPrint.add(dataEmployeePrint);
             }
 
             conn.close();
