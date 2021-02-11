@@ -255,9 +255,22 @@
                         class="btn btn-primary"
                         name="operasi"
                         value="exportPDF"
-                        style="width: min-content ; margin: 16px 0; white-space:nowrap;"
+                        style="width: 150px; white-space:nowrap; font-weight: bold"
                         type="submit">
                     Export to PDF
+                </button>
+            </form>
+            <form th:action="@{/employee/showtable}" method="post">
+                <input type="hidden" name="nama" value=""/>
+                <input type="hidden" name="atasanId" value=""/>
+                <input type="hidden" name="companyId" value=""/>
+                <button
+                        class="btn btn-primary"
+                        name="operasi"
+                        value="exportExcel"
+                        style="width: 150px; white-space:nowrap; font-weight: bold"
+                        type="submit">
+                    Export to Excel
                 </button>
             </form>
         </div>

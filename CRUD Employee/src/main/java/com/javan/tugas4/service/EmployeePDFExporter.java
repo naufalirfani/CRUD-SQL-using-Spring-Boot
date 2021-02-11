@@ -11,10 +11,10 @@ import com.lowagie.text.*;
 import com.lowagie.text.pdf.*;
 
 
-public class UserPDFExporter {
+public class EmployeePDFExporter {
     private List<DataEmployeePrint> listEmployee;
 
-    public UserPDFExporter(List<DataEmployeePrint> listEmployee) {
+    public EmployeePDFExporter(List<DataEmployeePrint> listEmployee) {
         this.listEmployee = listEmployee;
     }
 
@@ -23,11 +23,11 @@ public class UserPDFExporter {
         cell.setBackgroundColor(Color.BLUE);
         cell.setPadding(5);
 
-        Font font = FontFactory.getFont(FontFactory.HELVETICA);
+        Font font = FontFactory.getFont(FontFactory.TIMES_BOLD);
         font.setColor(Color.WHITE);
+        font.setSize(18);
 
         cell.setPhrase(new Phrase("Id", font));
-
         table.addCell(cell);
 
         cell.setPhrase(new Phrase("Nama", font));

@@ -1,7 +1,8 @@
 package com.javan.tugas4;
 
 import com.javan.tugas4.service.DatabaseService;
-import com.javan.tugas4.service.UserPDFExporter;
+import com.javan.tugas4.service.EmployeeExcelExporter;
+import com.javan.tugas4.service.EmployeePDFExporter;
 import com.lowagie.text.DocumentException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -71,6 +72,10 @@ public class EmployeeController {
                                @RequestParam(value = "companyId", defaultValue = "0") int companyId,
                                HttpServletResponse response) throws DocumentException, IOException {
 
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String currentDateTime = dateFormatter.format(new Date());
+        String headerKey = "Content-Disposition";
+
         switch (operasi) {
             case "delete":
                 databaseService.deleteData(id);
@@ -80,14 +85,19 @@ public class EmployeeController {
                 break;
             case "exportPDF":
                 response.setContentType("application/pdf");
-                DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
-                String currentDateTime = dateFormatter.format(new Date());
-
-                String headerKey = "Content-Disposition";
-                String headerValue = "attachment; filename=users_" + currentDateTime + ".pdf";
-                response.setHeader(headerKey, headerValue);
-                UserPDFExporter exporter = new UserPDFExporter(databaseService.employeeListPrint);
+                String headerValuePdf = "attachment; filename=TableEmployee_" + currentDateTime + ".pdf";
+                response.setHeader(headerKey, headerValuePdf);
+                EmployeePDFExporter exporter = new EmployeePDFExporter(databaseService.employeeListPrint);
                 exporter.export(response);
+                break;
+            case "exportExcel":
+                response.setContentType("application/octet-stream");
+                String headerValueExcel = "attachment; filename=TableEmployee_" + currentDateTime + ".xlsx";
+                response.setHeader(headerKey, headerValueExcel);
+                EmployeeExcelExporter excelExporter = new EmployeeExcelExporter(databaseService.employeeListPrint);
+                excelExporter.export(response);
+                break;
+            default:
                 break;
         }
         databaseService.getData();
