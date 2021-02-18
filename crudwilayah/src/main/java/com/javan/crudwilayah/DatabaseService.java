@@ -1,5 +1,6 @@
 package com.javan.crudwilayah;
 
+import com.javan.crudwilayah.data.DataKabupaten;
 import com.javan.crudwilayah.data.DataProvinsi;
 import java.sql.*;
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.List;
 public class DatabaseService {
 
     public List<DataProvinsi> provinsiList = new ArrayList<>();
+    public List<DataKabupaten> kabupatenList = new ArrayList<>();
 
     public void getDataProvinsi(){
 
@@ -28,6 +30,33 @@ public class DatabaseService {
                         rs.getString(2)
                 );
                 provinsiList.add(dataProvinsi);
+            }
+
+            conn.close();
+        }catch(Exception e){ System.out.println(e);}
+    }
+
+    public void getDataKabupaten(){
+
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection conn =
+                    DriverManager.getConnection("jdbc:mysql://localhost:3306/wilayah","root","freetopl4y");
+            //here sonoo is database name, root is username and password
+
+            String query = "select k.*, p.nama from kabupaten k join provinsi p on k.provinsiid = p.provinsiid;";
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            kabupatenList.clear();
+            while(rs.next()){
+                DataKabupaten dataKabupaten = new DataKabupaten(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getInt(3),
+                        rs.getString(4)
+                );
+                kabupatenList.add(dataKabupaten);
             }
 
             conn.close();

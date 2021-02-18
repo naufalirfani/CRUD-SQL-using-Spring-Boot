@@ -5,7 +5,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>CRUD Wilayah</title>
+    <title>CRUD Kabupaten</title>
     <style>
         th, td {
             padding: 24px;
@@ -81,25 +81,28 @@
                 color: dodgerblue;
                 font-weight: bold"
                 class="text-center">
-            Table Provinsi
+            Table Kabupaten/Kota
         </h1>
         <table id="t01" class="table table-striped" style="margin: 0 32px 32px 32px">
             <thead>
             <tr>
                 <th style="width: 10%">Id</th>
-                <th>Nama Provinsi</th>
+                <th>Kabupaten/Kota</th>
+                <th>Provinsi</th>
                 <th>Update</th>
                 <th>Delete</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="dataProvinsi :${provinsiList}" >
-                <td th:text="${dataProvinsi.provinsiid}"></td>
-                <td class="row-data" th:text="${dataProvinsi.nama}"></td>
+            <tr th:each="dataKabupaten :${kabupatenList}" >
+                <td th:text="${dataKabupaten.kabupatenid}"></td>
+                <td class="row-data" th:text="${dataKabupaten.namaKabupaten}"></td>
+                <td class="row-data" th:text="${dataKabupaten.namaProvinsi}"></td>
                 <td>
-                    <form th:action="@{/wilayah/provinsi/update}" method="get">
-                        <input type="hidden" name="provinsiid" th:value="${dataProvinsi.provinsiid}"/>
-                        <input type="hidden" name="nama" th:value="${dataProvinsi.nama}"/>
+                    <form th:action="@{/wilayah/kabupaten/update}" method="get">
+                        <input type="hidden" name="kabupatenid" th:value="${dataKabupaten.kabupatenid}"/>
+                        <input type="hidden" name="namaKabupaten" th:value="${dataKabupaten.namaKabupaten}"/>
+                        <input type="hidden" name="provinsiid" th:value="${dataKabupaten.provinsiid}"/>
                         <button
                                 type="submit"
                                 class="btn btn-primary"
@@ -110,9 +113,10 @@
                     </form>
                 </td>
                 <td>
-                    <form th:action="@{/wilayah/provinsi}" method="post">
-                        <input type="hidden" name="provinsiid" th:value="${dataProvinsi.provinsiid}"/>
-                        <input type="hidden" name="nama" th:value="${dataProvinsi.nama}"/>
+                    <form th:action="@{/wilayah/kabupaten}" method="post">
+                        <input type="hidden" name="kabupatenid" th:value="${dataKabupaten.kabupatenid}"/>
+                        <input type="hidden" name="namaKabupaten" th:value="${dataKabupaten.namaKabupaten}"/>
+                        <input type="hidden" name="provinsiid" th:value="${dataKabupaten.provinsiid}"/>
                         <button
                                 type="submit"
                                 class="btn btn-danger"
@@ -125,36 +129,6 @@
             </tr>
             </tbody>
         </table>
-        <div class="text-center">
-            <form th:action="@{/wilayah/provinsi}" method="post">
-                <input type="hidden" name="provinsiid" value=0/>
-                <label for="provinsi">
-                    Provinsi
-                </label>
-                <input
-                        type="text"
-                        placeholder="Masukkan Provinsi"
-                        name="nama"
-                        id="provinsi">
-
-                <button
-                        id="insert"
-                        class="btn btn-primary"
-                        name="operasi"
-                        value="insert"
-                        style="width: 80px; white-space:nowrap; font-weight: bold"
-                        type="submit">
-                    Insert
-                </button>
-            </form>
-        </div>
-        <button
-                onclick="location.href = '/wilayah';"
-                style="width: min-content; margin: 16px 8px"
-                type="submit"
-                class="btn btn-primary"
-                name="nama"
-        ><i class="fa fa-arrow-circle-left"></i></button>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>

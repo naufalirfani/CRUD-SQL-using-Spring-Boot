@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="https://www.thymeleaf.org " lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>CRUD Wilayah</title>
+    <style>
+        th, td {
+            padding: 24px;
+            text-align: center;
+            background-color: white;
+            width: min-content;
+            white-space:nowrap;
+            vertical-align: middle;
+        }
+        .table {
+            border-collapse: separate;
+            border-spacing: 0;
+            width: min-content;
+            overflow: hidden;
+            border-radius: 16px;
+            box-shadow: 4px 4px 4px grey;
+        }
+        .center-page{
+            margin: auto;
+        }
+        #t01 th {
+            color: white;
+            background-color: dodgerblue;
+        }
+        .container {
+            border: 4px solid dodgerblue;
+            background-color: whitesmoke ;
+            box-shadow: 4px 4px 4px grey;
+            border-radius: 16px;
+            margin-top: 32px;
+            margin-bottom: 32px;
+            width: min-content;
+            height: min-content;
+        }
+
+        /* Set a style for all buttons */
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            opacity: 0.9;
+        }
+
+        button:hover {
+            opacity:1;
+        }
+
+        /* Style the horizontal ruler */
+        hr {
+            border: 1px solid #f1f1f1;
+            margin-bottom: 25px;
+        }
+
+        input[type=text], input[type=number] {
+            padding: 6px;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            border-radius: 4px;
+        }
+
+    </style>
+</head>
+<body style="background-color: Thistle">
+<div class="center-page">
+    <div class="container">
+        <h1
+                style="padding: 32px 0;
+                color: dodgerblue;
+                font-weight: bold"
+                class="text-center">
+            Table Provinsi
+        </h1>
+        <table id="t01" class="table table-striped" style="margin: 0 32px 32px 32px">
+            <thead>
+            <tr>
+                <th style="width: 10%">Id</th>
+                <th>Provinsi</th>
+                <th>Update</th>
+                <th>Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="dataProvinsi :${provinsiList}" >
+                <td th:text="${dataProvinsi.provinsiid}"></td>
+                <td class="row-data" th:text="${dataProvinsi.nama}"></td>
+                <td>
+                    <form th:action="@{/wilayah/provinsi/update}" method="get">
+                        <input type="hidden" name="provinsiid" th:value="${dataProvinsi.provinsiid}"/>
+                        <input type="hidden" name="nama" th:value="${dataProvinsi.nama}"/>
+                        <button
+                                type="submit"
+                                class="btn btn-primary"
+                                id="update"
+                                name="operasi"
+                                value="update"
+                        ><i class="fa fa-edit"></i></button>
+                    </form>
+                </td>
+                <td>
+                    <form th:action="@{/wilayah/provinsi}" method="post">
+                        <input type="hidden" name="provinsiid" th:value="${dataProvinsi.provinsiid}"/>
+                        <input type="hidden" name="nama" th:value="${dataProvinsi.nama}"/>
+                        <button
+                                type="submit"
+                                class="btn btn-danger"
+                                id="delete"
+                                name="operasi"
+                                value="delete"
+                        ><i class="fa fa-trash"></i></button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="text-center">
+            <form th:action="@{/wilayah/provinsi}" method="post">
+                <input type="hidden" name="provinsiid" value=0/>
+                <label for="provinsi">
+                    Provinsi
+                </label>
+                <input
+                        type="text"
+                        placeholder="Masukkan Provinsi"
+                        name="nama"
+                        id="provinsi">
+
+                <button
+                        id="insert"
+                        class="btn btn-primary"
+                        name="operasi"
+                        value="insert"
+                        style="width: 80px; white-space:nowrap; font-weight: bold"
+                        type="submit">
+                    Insert
+                </button>
+            </form>
+        </div>
+        <button
+                onclick="location.href = '/wilayah';"
+                style="width: min-content; margin: 16px 8px"
+                type="submit"
+                class="btn btn-primary"
+                name="nama"
+        ><i class="fa fa-arrow-circle-left"></i></button>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+<script type="text/javascript">
+    // Get the modal
+    // var modal = document.getElementById('id01');
+    //
+    // // When the user clicks anywhere outside of the modal, close it
+    // window.onclick = function(event) {
+    //     if (event.target == modal) {
+    //         modal.style.display = "none";
+    //     }
+    // }
+</script>
+</body>
+</html>
