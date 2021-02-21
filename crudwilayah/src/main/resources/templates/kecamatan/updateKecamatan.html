@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>CRUD Kecamatan</title>
+    <style>
+        .center-page{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-right: -50%;
+            transform: translate(-50%, -50%);
+        }
+        form {
+            border: 4px solid dodgerblue;
+            background-color: whitesmoke ;
+            box-shadow: 4px 4px 4px grey;
+            border-radius: 16px;
+            margin: 0 384px;
+        }
+
+        input[type=text], input[type=number] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            border-radius: 16px;
+        }
+        .container {
+            padding: 48px;
+        }
+        label {
+            font-weight: bold;
+        }
+        .button {
+            font-size: 24px;
+            min-width: 120px;
+            padding: 8px 16px;
+            margin-top: 24px;
+            font-weight: bold;
+        }
+        select{
+            width: 100%;
+            padding: 12px 12px 12px 20px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            border-radius: 16px;
+        }
+    </style>
+</head>
+<body style="background-color: Thistle">
+<div class="center-page">
+    <form action="#" th:action="@{/wilayah/kecamatan}" method="post">
+        <h1 class="text-center" style="padding: 32px; color: dodgerblue; font-weight: bold">Update Kecamatan</h1>
+        <div class="container">
+            <label for="namaKecamatan">
+                Nama Kecamatan
+            </label>
+            <input
+                    type="text"
+                    name="namaKecamatan"
+                    id="namaKecamatan"
+                    th:value="${namaKecamatan}"
+                    required>
+
+            <p>
+                <label for="kabupaten">Pilih Kabupaten:</label><br>
+                <select id="kabupaten" name="kabupatenidnew">
+                    <option th:each="dataKabupaten : ${kabupatenList}"
+                            th:value="${dataKabupaten.kabupatenid}"
+                            th:text="${dataKabupaten.namaKabupaten}"></option>
+                </select>
+            </p>
+
+            <p class="text-center">
+                <button
+                        type="button"
+                        class="button btn btn-danger"
+                        onclick="location.href = '/wilayah/kecamatan';"
+                        style="margin-right: 32px">
+                    Cancel
+                </button>
+                <button
+                        type="submit"
+                        class="button btn btn-primary">
+                    Update
+                </button>
+                <input type="hidden" name="operasi" value="update"/>
+                <input type="hidden" name="kecamatanid" th:value="${kecamatanid}"/>
+                <input type="hidden" id="kabupatenid" name="kabupatenid" th:value="${kabupatenid}"/>
+            </p>
+        </div>
+    </form>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+<script>
+    var kabupatenid = parseInt(document.getElementById("kabupatenid").value);
+    var selectKabupaten = document.getElementById("kabupaten");
+    selectKabupaten.selectedIndex = kabupatenid-1;
+</script>
+</body>
+</html>
