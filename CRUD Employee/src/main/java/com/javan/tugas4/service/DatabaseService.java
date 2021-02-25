@@ -21,7 +21,8 @@ public class DatabaseService {
             //here sonoo is database name, root is username and password
 
             // the mysql insert statement
-            String query = "select * from employee";
+            String query = "select *, atasan_id as atasan from employee where atasan_id is null union\n" +
+                    "select e.*, e2.nama as atasan from employee e, employee e2 where e.atasan_id = e2.id;";
 
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(query);
@@ -46,6 +47,7 @@ public class DatabaseService {
                         rs.getInt(1),
                         rs.getString(2),
                         rs.getInt(3),
+                        rs.getString(5),
                         company
                 );
                 DataEmployeePrint dataEmployeePrint = new DataEmployeePrint(

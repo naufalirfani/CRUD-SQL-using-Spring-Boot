@@ -154,7 +154,7 @@
             <tr>
                 <th style="width: 10%">Id</th>
                 <th>Nama</th>
-                <th style="width: 10%">AtasanId</th>
+                <th style="width: 10%">Atasan</th>
                 <th>Company</th>
                 <th>Update</th>
                 <th>Delete</th>
@@ -164,7 +164,7 @@
             <tr th:each="dataEmployee :${employeeList}" >
                 <td th:text="${dataEmployee.id}"></td>
                 <td class="row-data" th:text="${dataEmployee.nama}"></td>
-                <td th:text="${dataEmployee.atasanId}"></td>
+                <td th:text="${dataEmployee.atasan}"></td>
                 <td th:text="${dataEmployee.companyId}" class="td"></td>
                 <td>
                     <form th:action="@{/employee/edit}" method="get">
